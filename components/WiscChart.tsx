@@ -29,6 +29,8 @@ const RIGHT_AXIS_W = 40;
 const COL_W = 56;
 const ROW_H = 26;
 const CHART_H = SCALE_STEPS * ROW_H;
+const CHART_PAD_V = 10; // breathing room so circles at 1 and 19 don't clip
+const SVG_H = CHART_H + 2 * CHART_PAD_V;
 const N = defaultSubtests.length;
 const CHART_INNER_W = N * COL_W;
 const SVG_W = LEFT_AXIS_W + CHART_INNER_W + RIGHT_AXIS_W;
@@ -38,7 +40,7 @@ const BOX_SIZE = 40;
 const CARD_PAD_X = 24;
 
 function valueToY(val: number): number {
-  return ((SCALE_MAX - val) / SCALE_STEPS) * CHART_H;
+  return CHART_PAD_V + ((SCALE_MAX - val) / SCALE_STEPS) * CHART_H;
 }
 
 const YELLOW_Y_TOP = valueToY(10.5);
@@ -283,8 +285,8 @@ export default function WiscChart() {
               {/* ── SVG Chart ── */}
               <svg
                 width={SVG_W}
-                height={CHART_H}
-                viewBox={`0 0 ${SVG_W} ${CHART_H}`}
+                height={SVG_H}
+                viewBox={`0 0 ${SVG_W} ${SVG_H}`}
                 style={{
                   display: "block",
                   border: BORDER,
@@ -349,7 +351,7 @@ export default function WiscChart() {
                     x1={LEFT_AXIS_W + i * COL_W}
                     y1={0}
                     x2={LEFT_AXIS_W + i * COL_W}
-                    y2={CHART_H}
+                    y2={SVG_H}
                     stroke="#e5e7eb"
                     strokeWidth={0.6}
                   />
@@ -359,7 +361,7 @@ export default function WiscChart() {
                   x1={LEFT_AXIS_W + CHART_INNER_W}
                   y1={0}
                   x2={LEFT_AXIS_W + CHART_INNER_W}
-                  y2={CHART_H}
+                  y2={SVG_H}
                   stroke="#e5e7eb"
                   strokeWidth={0.6}
                 />
